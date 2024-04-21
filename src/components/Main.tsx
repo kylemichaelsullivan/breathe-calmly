@@ -122,7 +122,7 @@ function Main() {
 
 	return (
 		<main className='Main mx-auto flex max-w-screen-md flex-col flex-nowrap gap-4 p-4'>
-			<Title title='Just Breathe' />
+			<Title title='Breathe Calmly' />
 
 			<Counter
 				isPlaying={isPlaying}
