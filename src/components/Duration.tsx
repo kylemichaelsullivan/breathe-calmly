@@ -57,7 +57,7 @@ function Duration({
 				/>
 				<input
 					type='number'
-					className='w-full min-w-12 border p-2 text-center sm:max-w-max sm:flex-1'
+					className='w-full min-w-16 border p-2 text-center sm:max-w-max sm:flex-1'
 					name={phase}
 					min='1'
 					placeholder={phase}
