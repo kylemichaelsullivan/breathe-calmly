@@ -1,3 +1,4 @@
+import type { MouseEvent } from 'react';
 import type { COLORS } from './colors';
 
 export type Color = (typeof COLORS)[number];
@@ -8,4 +9,4 @@ export type Phase = {
 	max: number;
 };
 
-export type HandleClick = (event: React.MouseEvent<HTMLButtonElement>) => void;
+export type HandleClick = (event: MouseEvent<HTMLButtonElement>) => void;
