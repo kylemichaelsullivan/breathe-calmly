@@ -1,11 +1,13 @@
+import type { Phase } from '../types';
+
 import { PRESETS } from '../presets';
+import Preset from './Preset';
 
 type PresetsProps = {
-	// biome-ignore lint/suspicious/noExplicitAny: <Needs to be typed>
-	handlePreset: any;
+	handleClick: (presetData: Phase[]) => void;
 };
 
-function Presets({ handlePreset }: PresetsProps) {
+function Presets({ handleClick }: PresetsProps) {
 	if (!PRESETS) {
 		return null;
 	}
@@ -18,15 +20,12 @@ function Presets({ handlePreset }: PresetsProps) {
 
 			<div className='flex w-full flex-col justify-center gap-4 md:flex-row'>
 				{PRESETS.map((preset) => (
-					<button
-						type='button'
-						className='transition-300 border border-black p-2 shadow-sm hover:bg-gray-300 hover:shadow-md'
+					<Preset
+						label={preset.label}
+						values={[...preset.values]}
+						handleClick={handleClick}
 						key={preset.label}
-						title={`Apply ${preset.label}`}
-						onClick={() => handlePreset(preset.values)}
-					>
-						{preset.label}
-					</button>
+					/>
 				))}
 			</div>
 		</div>

@@ -1,10 +1,11 @@
+import type { MouseEventHandler } from 'react';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
-import type { HandleClick } from '../types';
 
 type TogglerProps = {
 	isPlaying: boolean;
-	handleClick: HandleClick;
+	handleClick: MouseEventHandler<HTMLButtonElement>;
 };
 
 function Toggler({ isPlaying, handleClick }: TogglerProps) {

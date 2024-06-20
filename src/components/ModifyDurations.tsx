@@ -1,8 +1,10 @@
+import type { ModifyPhases } from '../types';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 type ModifyDurationsProps = {
-	modifyPhases: (arg: '+' | '-') => void;
+	modifyPhases: ModifyPhases;
 };
 
 function ModifyDurations({ modifyPhases }: ModifyDurationsProps) {

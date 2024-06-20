@@ -1,4 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type ChangeEvent } from 'react';
+
+import type { Color, MetaType, Phase } from '../types';
+
+import { useController } from '../context/Controller';
 
 import Title from './Title';
 import Counter from './Counter';
@@ -6,22 +10,19 @@ import Durations from './Durations';
 import Toggler from './Toggler';
 import Presets from './Presets';
 
-import { DEFAULT_STAGE as STAGE, DEFAULT_COUNT as COUNT } from '../defaults';
-
-import type { Color, Phase } from '../types';
+import {
+	DEFAULT_STAGE as STAGE,
+	DEFAULT_COUNT as COUNT,
+	DEFAULT_DATA as DATA,
+} from '../defaults';
 
 function Main() {
 	const [isPlaying, setIsPlaying] = useState(false);
-	const [stage, setStage] = useState(STAGE);
-	const [count, setCount] = useState(COUNT);
+	const { stage, count, setStage, setCount } = useController();
 
-	const [data, setData] = useState<Phase[]>([
-		{ phase: 'Inhale', color: 'yellow', max: 4 },
-		{ phase: 'Hold', color: 'red', max: 7 },
-		{ phase: 'Exhale', color: 'green', max: 8 },
-	]);
+	const [data, setData] = useState<Phase[]>(DATA);
 
-	const newHoldPhase: { phase: string; color: Color; max: number } = {
+	const newHoldPhase: Phase = {
 		phase: 'Hold',
 		color: 'red',
 		max: 4,
@@ -29,11 +30,11 @@ function Main() {
 
 	const initializeStage = useCallback(() => {
 		setStage(STAGE);
-	}, []);
+	}, [setStage]);
 
 	const initializeCount = useCallback(() => {
 		setCount(COUNT);
-	}, []);
+	}, [setCount]);
 
 	const reset = useCallback(() => {
 		initializeStage();
@@ -42,49 +43,53 @@ function Main() {
 
 	useEffect(() => {
 		const interval = setInterval(() => {
-			// biome-ignore lint/suspicious/noExplicitAny: <Needs to be typed>
-			setCount((prevCount: any) => {
-				if (isPlaying) {
-					const max = data[stage].max;
-
-					if (prevCount < max) {
-						return prevCount + 1;
-					}
-					setStage((prevStage) => (prevStage + 1) % data.length);
+			setCount((prevCount: number) => {
+				if (!isPlaying) {
+					reset();
 					return 1;
 				}
-				reset();
+
+				const max = data[stage].max;
+
+				if (prevCount < max) {
+					return prevCount + 1;
+				}
+
+				setStage((prevStage: number) => (prevStage + 1) % data.length);
+				return 1;
 			});
 		}, 1000);
 
 		return () => clearInterval(interval);
-	}, [data, isPlaying, stage, reset]);
+	}, [data, isPlaying, stage, setCount, setStage, reset]);
 
 	const handleMetaChange = (
-		e: React.ChangeEvent<HTMLInputElement>,
+		e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
 		index: number,
-		meta: string
+		meta: MetaType
 	) => {
 		const value = e.target.value;
 
-		// biome-ignore lint/suspicious/noExplicitAny: <Needs to be typed>
-		setData((prevData: any) => {
+		setData((prevData: Phase[]) => {
 			const nextData = [...prevData];
-			nextData[index][meta] = value;
+			nextData[index] = {
+				...nextData[index],
+				[meta]: meta === 'color' ? (value as Color) : value,
+			};
+
 			return nextData;
 		});
 	};
 
 	const handleDurationChange = (
-		e: React.ChangeEvent<HTMLInputElement>,
+		e: ChangeEvent<HTMLInputElement>,
 		index: number
 	) => {
 		const value = e.target.value;
 
-		// biome-ignore lint/suspicious/noExplicitAny: <Needs to be typed>
-		setData((prevData: any) => {
+		setData((prevData: Phase[]) => {
 			const nextData = [...prevData];
-			nextData[index].max = value;
+			nextData[index].max = Number.parseInt(value);
 			return nextData;
 		});
 	};
@@ -140,7 +145,7 @@ function Main() {
 
 			<Toggler isPlaying={isPlaying} handleClick={handleTogglerClick} />
 
-			<Presets handlePreset={handlePresetClick} />
+			<Presets handleClick={handlePresetClick} />
 		</main>
 	);
 }

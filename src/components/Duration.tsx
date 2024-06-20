@@ -1,5 +1,8 @@
+import type { ChangeEvent } from 'react';
+
 import { COLORS } from '../colors';
-import type { Color } from '../types';
+
+import type { Color, MetaType } from '../types';
 
 type DurationProps = {
 	color: Color;
@@ -7,12 +10,12 @@ type DurationProps = {
 	max: number;
 	index: number;
 	handleMetaChange: (
-		event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+		event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
 		index: number,
-		type: 'phase' | 'color'
+		type: MetaType
 	) => void;
 	handleDurationChange: (
-		event: React.ChangeEvent<HTMLInputElement>,
+		event: ChangeEvent<HTMLInputElement>,
 		index: number
 	) => void;
 };
@@ -35,7 +38,7 @@ function Duration({
 					onChange={(e) => handleMetaChange(e, index, 'phase')}
 				/>
 				<select
-					className='max-w-24 flex-1 cursor-pointer bg-transparent text-right'
+					className='cursor-pointer max-w-24 flex-1 bg-transparent text-right'
 					value={color}
 					onChange={(e) => handleMetaChange(e, index, 'color')}
 				>
@@ -48,10 +51,10 @@ function Duration({
 			<div className='flex flex-col flex-nowrap gap-2 pt-1 sm:flex-row'>
 				<input
 					type='range'
-					className='w-full text-center sm:flex-auto'
+					className='cursor-pointer w-full text-center sm:flex-auto'
 					name={phase}
-					min='1'
-					max='9'
+					min={1}
+					max={15}
 					value={max}
 					onChange={(e) => handleDurationChange(e, index)}
 				/>
@@ -59,7 +62,7 @@ function Duration({
 					type='number'
 					className='w-full min-w-16 border p-2 text-center sm:max-w-max sm:flex-1'
 					name={phase}
-					min='1'
+					min={1}
 					placeholder={phase}
 					value={max}
 					onChange={(e) => handleDurationChange(e, index)}

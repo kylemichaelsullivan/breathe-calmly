@@ -1,17 +1,22 @@
+import type { ChangeEvent } from 'react';
+
+import type { Phase, ModifyPhases, MetaType } from '../types';
+
 import Duration from './Duration';
 import ModifyDurations from './ModifyDurations';
 
-import type { Phase } from '../types';
-
 type DurationsProps = {
-	// biome-ignore lint/suspicious/noExplicitAny: <Needs to be typed>
-	data: any;
-	// biome-ignore lint/suspicious/noExplicitAny: <Needs to be typed>
-	modifyPhases: any;
-	// biome-ignore lint/suspicious/noExplicitAny: <Needs to be typed>
-	handleMetaChange: any;
-	// biome-ignore lint/suspicious/noExplicitAny: <Needs to be typed>
-	handleDurationChange: any;
+	data: Phase[];
+	modifyPhases: ModifyPhases;
+	handleMetaChange: (
+		e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+		index: number,
+		type: MetaType
+	) => void;
+	handleDurationChange: (
+		e: ChangeEvent<HTMLInputElement>,
+		index: number
+	) => void;
 };
 
 function Durations({
@@ -20,6 +25,8 @@ function Durations({
 	handleMetaChange,
 	handleDurationChange,
 }: DurationsProps) {
+	let i = 0;
+
 	return (
 		<div className='Durations flex flex-col gap-4 border border-black bg-gray-100 shadow-md'>
 			{data.map((duration: Phase, index: number) => (
@@ -28,8 +35,7 @@ function Durations({
 					color={duration.color}
 					max={duration.max}
 					index={index}
-					// biome-ignore lint/suspicious/noArrayIndexKey: <No ID>
-					key={index}
+					key={i++}
 					handleMetaChange={handleMetaChange}
 					handleDurationChange={handleDurationChange}
 				/>
