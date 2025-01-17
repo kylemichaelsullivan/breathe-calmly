@@ -16,9 +16,12 @@ type ControllerContextType = {
 	setCount: Dispatch<SetStateAction<number>>;
 };
 
-const ControllerContext = createContext<ControllerContextType | undefined>(
-	undefined
-);
+const ControllerContext = createContext<ControllerContextType>({
+	stage: STAGE ?? 0,
+	count: COUNT ?? 1,
+	setStage: () => {},
+	setCount: () => {},
+});
 
 type ControllerProviderProps = {
 	children: ReactNode;
@@ -46,7 +49,7 @@ export const useController = (): ControllerContextType => {
 	const context = useContext(ControllerContext);
 	if (!context) {
 		throw new Error(
-			'useController must be used within a <ControllerProvider />'
+			'useController must be used within a <ControllerProvider />',
 		);
 	}
 	return context;

@@ -66,7 +66,7 @@ function Main() {
 	const handleMetaChange = (
 		e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
 		index: number,
-		meta: MetaType
+		meta: MetaType,
 	) => {
 		const value = e.target.value;
 
@@ -83,7 +83,7 @@ function Main() {
 
 	const handleDurationChange = (
 		e: ChangeEvent<HTMLInputElement>,
-		index: number
+		index: number,
 	) => {
 		const value = e.target.value;
 

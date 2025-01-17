@@ -12,11 +12,11 @@ type DurationProps = {
 	handleMetaChange: (
 		event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
 		index: number,
-		type: MetaType
+		type: MetaType,
 	) => void;
 	handleDurationChange: (
 		event: ChangeEvent<HTMLInputElement>,
-		index: number
+		index: number,
 	) => void;
 };
 

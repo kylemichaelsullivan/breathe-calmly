@@ -1,10 +1,10 @@
 export const COLORS = [
-  "gray",
-  "red",
-  "yellow",
-  "green",
-  "blue",
-  "indigo",
-  "purple",
-  "pink",
+	'gray',
+	'red',
+	'yellow',
+	'green',
+	'blue',
+	'indigo',
+	'purple',
+	'pink',
 ] as const;
